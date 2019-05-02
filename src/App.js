@@ -8,7 +8,9 @@ function App() {
   return (
     <Router>
       <AppNavbar />
-      <Switch />
+      <div className="container">
+        <Switch />
+      </div>
       <Footer />
     </Router>
   );
