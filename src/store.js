@@ -2,7 +2,12 @@ import { createStore, combineReducers, compose } from "redux";
 import firebase from "firebase";
 import "firebase/firestore";
 import { reactReduxFirebase, firebaseReducer } from "react-redux-firebase";
-import { reduxFirestore, firestoreReducer } from "redux-firestore";
+import {
+  reduxFirestore,
+  firestoreReducer,
+  createFirestoreInstance,
+} from "redux-firestore";
+
 require("dotenv").config();
 
 //Reducers {TODO}
@@ -51,14 +56,20 @@ const rootReducer = combineReducers({
 
 // Create store with reducers and initial state
 const initialState = {}; // TODO: Fetch settings from local storage and put them here
-const store = createStoreWithFirebase(
+const store = createStore(
   rootReducer,
   initialState,
   compose(
-    reactReduxFirebase(firebase),
     window.__REDUX_DEVTOOLS_EXTENSION__ &&
       window.__REDUX_DEVTOOLS_EXTENSION__(),
   ),
 );
+
+export const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance, // <- needed if using firestore
+};
 
 export default store;
